@@ -24,12 +24,21 @@ const MyProfile = () => {
         }
     }, []);
 
+    // maybe async? idk
     const handleEdit = (post) => {
-        router.push(`/update-post?id=${post.id}`)
+        router.push(`/update-post?id=${post._id}`)
     }
 
     const handleDelete = async (post) => {
-        router.push(`/delete-post?id=${post.id}`)
+        const res = await fetch(`/api/post/${post._id.toString()}`, {
+            method: 'DELETE'
+        });
+
+        const filteredPosts = posts.filter((p) => p._id !== post._id );
+        setPosts(filteredPosts);
+
+        console.log('deleting post...');
+        console.log(res);
     }
 
   return (

@@ -31,6 +31,11 @@ const Feed = () => {
     console.log('setting search text..')
   });
 
+  const handleTagClick = (tag) => {
+    console.log('setting tag as search...')
+    setSearchText(tag);
+  }
+
   const fetchPosts = async () => {
     const res = await fetch('/api/post');
     const responsePosts = await res.json();
@@ -77,7 +82,7 @@ const Feed = () => {
 
           <PromptCardList
             posts={posts}
-            handleTagClick={()=>{}}
+            handleTagClick={handleTagClick}
           />
         </section>
         
