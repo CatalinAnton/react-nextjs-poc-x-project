@@ -17,7 +17,5 @@ const UserSchema = new Schema({
 });
 
 const User = models.User || model("User", UserSchema);
-
-export default User;
-
 // 1.33.11 video
+export default User;
