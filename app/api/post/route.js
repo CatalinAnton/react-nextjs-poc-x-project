@@ -8,9 +8,6 @@ export const GET = async (request) => {
 
         const posts = await Post.find({}).populate('creator');
 
-        console.log('posts received');
-        console.log(typeof posts)
-
         return new Response(JSON.stringify(posts), {
             status: 200
         });

@@ -35,7 +35,7 @@ const UpdatePost = () => {
     
 
     const updatePost = async (e) => {
-        console.log('updateing post...');
+        console.log('updating post...');
         e.preventDefault();
         setSubmitting(true);
 

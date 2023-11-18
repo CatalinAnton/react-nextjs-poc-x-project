@@ -1,10 +1,11 @@
 'use client';
 
 import {useState, useEffect} from 'react';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import PromptCard from './PromptCard';
 
-const PromptCardList = ({posts, handleTagClick}) => {
+const PromptCardList = ({posts, handleTagClick, handleProfileClick}) => {
   console.log(posts);
   return <>
     <div className='mt-16 prompt_layout'>
@@ -14,6 +15,7 @@ const PromptCardList = ({posts, handleTagClick}) => {
             key={post._id}
             post={post}
             handleTagClick={handleTagClick}
+            handleProfileClick={() => handleProfileClick(post.creator._id)}
           />
         </>
       })}
@@ -23,12 +25,16 @@ const PromptCardList = ({posts, handleTagClick}) => {
 
 const Feed = () => {
   const {data: session} = useSession();
+  const router = useRouter();
   const [searchText, setSearchText] = useState('');
   const [posts, setPosts] = useState([]);
 
   const handleSearchChange = (event => {
-    setSearchText(event.target.value);
-    console.log('setting search text..')
+    let searchQuery = event.target.value;
+    setSearchText(searchQuery);
+    console.log('setting search text..');
+
+    fetchPosts(searchQuery || null);
   });
 
   const handleTagClick = (tag) => {
@@ -36,8 +42,21 @@ const Feed = () => {
     setSearchText(tag);
   }
 
-  const fetchPosts = async () => {
-    const res = await fetch('/api/post');
+  const handleProfileClick = (id) => {
+    console.log('id is');
+    console.log(id);
+    router.push(`/profile?id=${id}`);
+  }
+
+  const fetchPosts = async (queryString) => {
+    let res;
+
+    if (queryString) {
+      res = await fetch(`/api/posts?q=${queryString}`);
+    } else {
+      res = await fetch('/api/post');
+    }
+
     const responsePosts = await res.json();
     setPosts(responsePosts);
     console.log('fetching posts...')
@@ -45,13 +64,13 @@ const Feed = () => {
 
   useEffect(()=> {
     fetchPosts();
-  }, [searchText]);
+  }, []);
 
   return (
     <>
       <div>Feed</div>
       <div className='flex flex-col'>
-        <div>
+        {/* <div>
           <p className='break-words flex justify-center'>
             <span>
               session is 
@@ -60,12 +79,11 @@ const Feed = () => {
               { session?.user?.name }
             </span>
           </p>
-        </div>
-        
+        </div> */}
 
-        <section>
+        {/* <section>
               <p> posts here: {JSON.stringify(posts)}</p>
-        </section>
+        </section> */}
         <section
           className='feed'
         >
@@ -83,6 +101,7 @@ const Feed = () => {
           <PromptCardList
             posts={posts}
             handleTagClick={handleTagClick}
+            handleProfileClick={handleProfileClick}
           />
         </section>
         

@@ -1,7 +1,7 @@
 'use client';
 import PromptCard from '@components/PromptCard';
 
-const Profile = ({name, desc, posts, handleEdit, handleDelete}) => {
+const Profile = ({name, desc, posts, isMyProfile, handleEdit, handleDelete}) => {
   console.log('data is');
   console.log(posts)
   return (
@@ -19,6 +19,7 @@ const Profile = ({name, desc, posts, handleEdit, handleDelete}) => {
               <PromptCard
                 key={post._id}
                 post={post}
+                isMyProfile={isMyProfile}
                 handleEdit={() => handleEdit && handleEdit(post)}
                 handleDelete={() => handleDelete && handleDelete(post)}
               />

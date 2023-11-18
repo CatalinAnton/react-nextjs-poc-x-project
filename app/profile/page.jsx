@@ -2,27 +2,42 @@
 
 import {useState, useEffect} from 'react';
 import {useSession} from 'next-auth/react';
-import {useRouter} from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 
 import Profile from '@components/Profile';
 
-const MyProfile = () => {
+const ProfilePage = () => {
     const {data: session} = useSession();
     const [posts, setPosts] = useState([]);
-    const router = useRouter()
+    const [profile, setProfile] = useState(null);
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const profileId = searchParams.get('id') || session?.user.id;
+    const isMyProfile = profileId === session?.user.id;
 
     const fetchPosts = async () => {
-        const res = await fetch(`/api/users/${session?.user.id}/posts`);
+        const res = await fetch(`/api/users/${profileId}/posts`);
         const responsePosts = await res.json();
         setPosts(responsePosts);
         console.log('fetching posts...')
       }
     
+    const fetchProfile = async () => {
+        const res = await fetch(`/api/users/${profileId}`);
+        const currentProfile = await res.json();
+
+        if (currentProfile) {
+            setProfile(currentProfile);
+        }
+    }
+    
     useEffect(()=> {
-        if (session?.user?.id) {
+        if (profileId) {
             fetchPosts();
+            fetchProfile();
         }
     }, []);
+
 
     // maybe async? idk
     const handleEdit = (post) => {
@@ -43,10 +58,12 @@ const MyProfile = () => {
 
   return (
     <div>
+        {JSON.stringify(profile)}
         <Profile 
-            name="My"
+            name={isMyProfile ? 'My' : profile?.username}
             desc="Welcome to your personalized profile page"
             posts={posts}
+            isMyProfile={isMyProfile}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
         />
@@ -54,4 +71,4 @@ const MyProfile = () => {
   )
 }
 
-export default MyProfile
+export default ProfilePage
