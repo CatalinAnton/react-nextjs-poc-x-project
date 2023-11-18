@@ -1,5 +1,22 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+It is a project resembling a mini-twitter. It has the following functionalities:
+- auth with google, using nextauth
+- ability to see posts, write posts, edit, delete
+- search through posts
+- view profile pages
+- using mongodb for data storage
+- back-end api in nextjs
+
+Disclaimers:
+- The scope of this project was to familiarise myself with the latest version of React and with Nextjs 13 and  their tools and utilities, such as:
+  - nextauth
+  - folder-based nextjs routing
+  - react hooks usage and their perks and edge cases
+  - interaction with third party apis
+- the styling is pretty rough around the edges, as this was not a css exercise
+- this project is inspired and following https://www.jsmastery.pro course
+
 ## Getting Started
 
 First, run the development server:
