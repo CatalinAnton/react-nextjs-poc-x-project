@@ -9,7 +9,7 @@ It is a project resembling a mini-twitter. It has the following functionalities:
 - back-end api in nextjs
 
 Disclaimers:
-- The scope of this project was to familiarise myself with the latest version of React and with Nextjs 13 and  their tools and utilities, such as:
+- The scope of this project was to familiarise myself with the latest version of React and with Nextjs 14 and  their tools and utilities, such as:
   - nextauth
   - folder-based nextjs routing
   - react hooks usage and their perks and edge cases
